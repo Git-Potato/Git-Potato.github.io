@@ -2,6 +2,7 @@ let px = 0;
 let py = 0;
 let colorInput;//カラーピッカーを入れる変数
 let dataInput;//テキストエリアを入れる変数
+let sw = 5;//線の太さ
 
 function setup() {
   createCanvas(512, 512);
@@ -21,9 +22,15 @@ function setup() {
 
 function draw() {
 
+ if(keyIsDown(70)){sw++;
+ }//fキー
+ else if(keyIsDown(68)&& sw > 1){
+  sw--;//細くする
+}//dキー
 
-  strokeWeight(10);
 
+  strokeWeight(sw);//線の太さを設定
+// マウスが押されているときに線を描く
   if (mouseIsPressed) {
     stroke(colorInput.value());
       line(px, py, mouseX, mouseY);

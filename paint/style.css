@@ -5,6 +5,25 @@ html, body {
   padding: 0;
 }
 
+html,body,main {
+  height: 100%;
+}
+wrap {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+#color{
+  margin-bottom:20px;
+
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
 canvas {
   display: block;
 }
