@@ -80,7 +80,7 @@ function mousePressed() {
 }
 new Fruit('berry', mouseX, mouseY, engine.world);
 }
-if (Fruit.se.merge) Fruit.se.merge.play();
+
 
 
 window.setup = setup;

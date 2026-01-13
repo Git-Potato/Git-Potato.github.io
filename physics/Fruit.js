@@ -1,6 +1,7 @@
 import { drawBody,scaleShape } from './util.js';
 import { ShapeBerry } from './shapes.js';
 
+
 let { Engine, Bodies, Composite } = Matter; // モジュールを変数化
 
 class Fruit {
