@@ -27,14 +27,8 @@ class Fruit {
   draw() {
     push();
     fill(this.data.color);
-    noStroke();
-
-    let v = this.body.vertices; // 物体の頂点（配列）
-    beginShape(); // 多角形描画開始
-    for (let i = 0; i < v.length; i++) {
-      vertex(v[i].x, v[i].y);
-    }
-    endShape(CLOSE); // 多角形描画終了
+    drawBody(this.body);
+    pop();
   }
   hit(b, fruit) {
     if (this.merged) return;//すでに合体済みなら何もしない
