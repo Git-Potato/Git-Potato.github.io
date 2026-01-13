@@ -1,15 +1,23 @@
 import { Fruit } from './Fruit.js';//Fruit.jsを輸入する
+import { ShapeStage } from './shapes.js';
+import { drawBody } from './util.js';
 
 let { Engine, Bodies, Composite, Events } = Matter; // モジュールを変数化
 let engine; // 物理エンジン
-let pon;
+
+//効果音集
+let se;
+Fruit.se = se;
+let scene = 'title'
 
 function setup() {
   createCanvas(400, 400);
 
-  loadSound('//ここにデータを入れる',data=>{
-pon=data
-  })
+
+ loadSound('se_merge',data=>{});
+// pon=data
+//   })
+// console.log("shapeStage")
 
   console.log("Setup")
 
@@ -18,20 +26,19 @@ pon=data
   engine = Engine.create();
 
   // 箱を生成 (X, Y, 幅, 高さ)
-  let boxA = Bodies.rectangle(150, 200, 120, 120); // 箱（大）
-  let boxB = Bodies.rectangle(200, 0, 80, 80); // 箱（小） 
-  let ground = Bodies.rectangle(200, 350, 380, 50, { isStatic: true }); // 地面
+  let stage =Bodies.fromVertices(200,300, ShapeStage, { isStatic: true });
+
 
   // 箱を世界に配置
-  Composite.add(engine.world, [boxA, boxB, ground]);
+  Composite.add(engine.world, stage);
 
   //物体同士がぶつかったとき、コールバックを実行イベント
   Events.on(engine, 'collisionStart', ev => {
     console.log('衝突しました', ev.pairs)
     for (let i = 0; i < ev.pairs.length; i++) {
       let pair = ev.pairs[i];//衝突したペア
-      let a = pair.bodyA;
-      let b = pair.bodyB;
+      let a = pair.bodyA.parent;
+      let b = pair.bodyB.parent;
       if (a.fruit) {
         a.fruit.hit(b, b.fruit);
       }
@@ -45,30 +52,36 @@ function draw() {
 
   // 世界に配置された全ての物体を取得（配列） 
   let bodies = Composite.allBodies(engine.world);
-
+  
   // 全ての物体を描画（配列をスキャン）
+  fill(255,255,255)
+  noStroke();
   for (let i = 0; i < bodies.length; i++) {
     if (bodies[i].fruit) bodies[i].fruit.draw();
     else drawBody(bodies[i]);
   }
-
+  
   // 世界の更新（1 フレーム時間を進める）
   Engine.update(engine, deltaTime);
-}
 
-// 自作関数: 引数で渡された物体を描画する
-function drawBody(body) {
-  let v = body.vertices; // 物体の頂点（配列）
-  beginShape(); // 多角形描画開始
-  for (let i = 0; i < v.length; i++) {
-    vertex(v[i].x, v[i].y);
+  
+  if (scene == 'title') {
+    textSize(32);
+    text('game', 200 , 200)
   }
-  endShape(CLOSE); // 多角形描画終了
 }
 
 function mousePressed() {
-  new Fruit('berry', mouseX, mouseY, engine.world);
+  if (scene == 'title') {
+    scene = 'game';
+    
+  }
+  else if (scene == 'game') {
 }
+new Fruit('berry', mouseX, mouseY, engine.world);
+}
+if (Fruit.se.merge) Fruit.se.merge.play();
+
 
 window.setup = setup;
 window.draw = draw;

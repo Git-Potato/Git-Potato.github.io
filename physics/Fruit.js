@@ -1,18 +1,33 @@
+import { drawBody,scaleShape } from './util.js';
+import { ShapeBerry } from './shapes.js';
 
 let { Engine, Bodies, Composite } = Matter; // モジュールを変数化
 
 class Fruit {
   constructor(type, x, y, world) {
     console.log("果物" + type + 'ができました');
+    this.merged = false;//合体済みかどうか
     this.type = type;
     this.data = data[type];
-    this.body = Bodies.circle(x, y, this.data.size, { isStatic: false });//物理的な実態
+
+    if (this.data.shape) {
+      this.body = Bodies.fromVertices(x, y,this.data.shape);
+    } else {
+      this.body = Bodies.circle(x, y, this.data.size, { isStatic: false });//物理的な実態
+
+    }
+
+
     this.body.fruit = this;
     this.world = world;
 
     Composite.add(world, this.body);
   }
   draw() {
+    push();
+    fill(this.data.color);
+    noStroke();
+
     let v = this.body.vertices; // 物体の頂点（配列）
     beginShape(); // 多角形描画開始
     for (let i = 0; i < v.length; i++) {
@@ -21,11 +36,13 @@ class Fruit {
     endShape(CLOSE); // 多角形描画終了
   }
   hit(b, fruit) {
+    if (this.merged) return;//すでに合体済みなら何もしない
     if (fruit) {
       console.log('fruit.type' + 'に当たった');
 
       if (this.type == fruit.type) {
         //aitega同じ種類なら
+        this.merged = true;
         this.merge(b);//bと合体する
       }
     }
@@ -52,7 +69,6 @@ class Fruit {
     let nextType = data[this.type].next;
 
     //新しい果物を生成
-    new Fruit(nextType, x, y, this.world);
     if (data[nextType]) {
       new Fruit(nextType, x, y, this.world);
     }
@@ -63,6 +79,7 @@ let data = {
   berry: {
     color: 'crimson',
     size: 20,
+    shape: scaleShape(ShapeBerry, 0.5),
     next: 'grape'
   },
   grape: {
@@ -78,27 +95,27 @@ let data = {
   kaki: {
     color: 'darkorange',
     size: 50,
-    next: null
+    next: 'momo'
   },
   momo: {
     color: 'red',
     size: 60,
-    next: null
+    next: 'nashi'
   },
   nashi: {
     color: 'yellow',
     size: 70,
-    next: null
+    next: 'meronn'
   },
   meronn: {
     color: 'lightgreen',
     size: 80,
-    next: null
+    next: 'suika'
   },
   suika: {
     color: 'green',
     size: 90,
-    next: null
+    next: 'x'
   }
 }
 export { Fruit };
