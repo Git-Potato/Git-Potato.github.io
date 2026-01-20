@@ -1,11 +1,13 @@
 import { drawBody,scaleShape } from './util.js';
-import { ShapeBerry } from './shapes.js';
-import { ShapeGrape} from './shapes.js';
-import { ShapeOrange} from './shapes.js';
-import { ShapeKaki} from './shapes.js';
-import { ShapeMomo} from './shapes.js';
-import { ShapeNashi} from './shapes.js';
-import { ShapeMeronn} from './shapes.js';
+import { 
+  ShapeBerry,
+  ShapeGrape,
+  ShapeOrange,
+  ShapeKaki,
+  ShapeMomo,
+  ShapeNashi,
+  ShapeMeronn,
+ } from './shapes.js';
 
 
 let { Engine, Bodies, Composite } = Matter; // モジュールを変数化

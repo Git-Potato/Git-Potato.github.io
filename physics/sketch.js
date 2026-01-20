@@ -60,13 +60,14 @@ function draw() {
   fill(255, 255, 255)
   noStroke();
   for (let i = 0; i < bodies.length; i++) {
-    if (bodies[i].fruit) bodies[i].fruit.draw();
-    if (isOutOfBounds(bodies[i], 0, 0, width, height)) {
-      //物体が画面外に出たら
-      scene = 'gameover';//ゲームオーバーに移行
-      delta = 1000 / (60 * 4); //スローモーションにする
-    }
-    else drawBody(bodies[i]);
+    if (bodies[i].fruit) {
+      bodies[i].fruit.draw();
+      if (isOutOfBounds(bodies[i], 0, 0, width, height)) {
+        //物体が画面外に出たら
+        scene = 'gameover';//ゲームオーバーに移行
+        delta = 1000 / (60 * 4); //スローモーションにする
+      }
+    } else drawBody(bodies[i]);
   }
 
   // 世界の更新（1 フレーム時間を進める）
