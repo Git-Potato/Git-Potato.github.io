@@ -1,5 +1,11 @@
 import { drawBody,scaleShape } from './util.js';
 import { ShapeBerry } from './shapes.js';
+import { ShapeGrape} from './shapes.js';
+import { ShapeOrange} from './shapes.js';
+import { ShapeKaki} from './shapes.js';
+import { ShapeMomo} from './shapes.js';
+import { ShapeNashi} from './shapes.js';
+import { ShapeMeronn} from './shapes.js';
 
 
 let { Engine, Bodies, Composite } = Matter; // モジュールを変数化
@@ -44,6 +50,7 @@ class Fruit {
   }
   //他のfruitと合体する
   merge(b) {
+    if (Fruit.se.star) Fruit.se.star.play();
     let ax = this.body.position.x;
     let ay = this.body.position.y;
     //Aの中心点
@@ -72,44 +79,50 @@ class Fruit {
 
 let data = {
   berry: {
-    color: 'crimson',
+    color: [255, 200, 0],
     size: 20,
-    shape: scaleShape(ShapeBerry, 0.5),
+    shape: scaleShape(ShapeBerry, 0.3),
     next: 'grape'
   },
   grape: {
     color: 'purple',
     size: 30,
+    shape: scaleShape(ShapeGrape, 0.2),
     next: 'orange'
   },
   orange: {
     color: 'orange',
     size: 40,
+    shape: scaleShape(ShapeOrange, 0.6),
     next: 'kaki'
   },
   kaki: {
     color: 'darkorange',
     size: 50,
+    shape: scaleShape(ShapeKaki, 0.4),
     next: 'momo'
   },
   momo: {
     color: 'red',
     size: 60,
+    shape: scaleShape(ShapeMomo, 0.7),
     next: 'nashi'
   },
   nashi: {
     color: 'yellow',
-    size: 70,
+    size: 40,
+    shape: scaleShape(ShapeNashi, 0.6),
     next: 'meronn'
   },
   meronn: {
     color: 'lightgreen',
     size: 80,
+    shape: scaleShape(ShapeMeronn, 0.6),
     next: 'suika'
   },
   suika: {
     color: 'green',
-    size: 90,
+    size: 60,
     next: 'x'
   }
 }
